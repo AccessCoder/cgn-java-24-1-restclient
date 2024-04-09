@@ -1,12 +1,12 @@
 package de.neuefische.cgnjava241restclient.controller;
 
+import de.neuefische.cgnjava241restclient.exceptions.InvalidIdException;
 import de.neuefische.cgnjava241restclient.model.RAndMChar;
 import de.neuefische.cgnjava241restclient.service.RAndMService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +23,11 @@ public class RAndMController {
     }
 
     @GetMapping("/{id}")
-    public RAndMChar getAllRickAndMortyChars(@PathVariable int id){
-        return service.getRickAndMortyCharById(id);
+    public ResponseEntity<RAndMChar> getAllRickAndMortyChars(@PathVariable int id) throws InvalidIdException {
+        RAndMChar x = service.getRickAndMortyCharById(id);
+        return new ResponseEntity<>(x, HttpStatus.CREATED);
     }
+
+
+
 }

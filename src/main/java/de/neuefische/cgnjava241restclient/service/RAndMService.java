@@ -1,5 +1,6 @@
 package de.neuefische.cgnjava241restclient.service;
 
+import de.neuefische.cgnjava241restclient.exceptions.InvalidIdException;
 import de.neuefische.cgnjava241restclient.model.RAndMChar;
 import de.neuefische.cgnjava241restclient.model.RAndMResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,10 +28,13 @@ public class RAndMService {
                .getResults();
     }
 
-    public RAndMChar getRickAndMortyCharById(int id) {
-        return currywurst.get()
-                .uri("/character/"+id)
-                .retrieve()
-                .body(RAndMChar.class);
+    public RAndMChar getRickAndMortyCharById(int id) throws InvalidIdException {
+        if (id <= 826){
+            return currywurst.get()
+                    .uri("/character/"+id)
+                    .retrieve()
+                    .body(RAndMChar.class);
+        }else throw new InvalidIdException("No Char found with id: " + id);
+
     }
 }
