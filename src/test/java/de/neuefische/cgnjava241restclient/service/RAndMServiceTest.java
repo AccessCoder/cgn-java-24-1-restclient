@@ -74,4 +74,22 @@ class RAndMServiceTest {
                         """));
 
     }
+
+    @Test
+    void getRickAndMortyCharById_shouldReturnErrorDto_WhenCalledWithInvalidId() throws Exception {
+        //GIVEN
+
+        //WHEN & THEN
+        mvc.perform(MockMvcRequestBuilders.get("/api/rick/1596"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().json("""
+                        {
+                            "apiPath" : "uri=/api/rick/1596",
+                            "errorCode" : "NOT_FOUND",
+                            "errorMsg" : "No Char found with id: 1596"
+                        }
+                        """))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errorTime").exists());
+
+    }
 }
